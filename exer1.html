@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id ="output">
+
+    </div>
+    <input type="number" id="myNum" min="0" max="20" value="4">
+    <button value="check" id="testBtn">Click</button>
+
+    <script>
+        const output = document.getElementById('output'); 
+        const myNum = document.getElementById('myNum');
+        const testBtn = document.getElementById('testBtn'); 
+
+       function checkVal(){
+         let val = myNum.value;
+   
+         let mensagem = numChecker(val);
+         console.log(mensagem);
+         document.getElementById('output').textContent = mensagem;
+
+       }
+
+       function numChecker(num) {
+            console.log("O valor de num é: " + num);
+            let message;
+    
+            if (num % 2 === 0) {
+                message = "O número é par.";
+            } else {
+                message = "O número é ímpar.";
+            }
+    
+   
+    return message;
+}
+
+    
+    
+
+
+        testBtn.addEventListener('click', checkVal);
+        
+
+    </script>
+</body>
+</html>
