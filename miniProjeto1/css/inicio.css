@@ -1,0 +1,78 @@
+.navbar-custom {
+    background-color: #F4F4F4; /* Mesma cor do fundo do body */
+    border-bottom: 1px solid #313030; /* Linha sutil para separação */
+}
+.navbar-brand {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333; /* Cor mais escura para contraste */
+}
+.navbar-nav .nav-link {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: #333333; /* Mesma cor das letras para um visual limpo */
+}
+.navbar-nav .nav-link:hover {
+    color: #000; /* Mudar ligeiramente a cor ao passar o rato */
+}
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    background-color: #333333; /* Ícone de toggle mais escuro para contraste */
+    border-radius: 50%;
+}
+.navbar-brand:hover {
+    color: #C4D58E; /* Cor quando passas o rato (por exemplo, laranja pastel) */
+    text-decoration: none; /* Remove sublinhado, se houver */
+}
+
+
+/* Body */
+ 
+
+
+body {
+    background-image: url('/Users/marianaveiga/Desktop/Mestrado /TDW(tecn.Desenvolvimento_web)/mini_Projeto /Projeto/imagens/ba.jpeg'); /* Define a imagem de fundo */
+    background-size: cover; /* Faz com que a imagem cubra todo o fundo */
+    background-position: center; /* Centraliza a imagem no fundo */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    background-attachment: fixed; /* Mantém a imagem fixa enquanto se faz scroll */
+}
+
+/* Cards com livros em destaques  */
+
+.card {
+    width: 100%;
+    height: 350px;
+    border: none; /* Remove as bordas */
+    border-radius: 15px; /* Arredondar os cantos do card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adicionar uma sombra suave */
+    transition: transform 0.3s ease; /* Animação ao passar o rato */
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Elevar o card ao passar o rato */
+}
+
+.card-img-top {
+    border-top-left-radius: 15px; /* Arredondar os cantos superiores da imagem */
+    border-top-right-radius: 15px;
+    height: 300px; /* Ajustar a altura da imagem */
+    object-fit: cover; /* Garante que a imagem se encaixe sem distorção */
+    background-color: #F4F4F4;
+}
+
+.card-body {
+    background-color: #F4F4F4; /* Fundo claro para o conteúdo */
+    padding: 20px; /* Aumentar o espaçamento interno */
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.2rem; /* Tamanho maior para o título */
+    font-weight: bold;
+    color: #333; /* Cor escura */
+}
+

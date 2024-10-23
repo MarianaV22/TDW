@@ -1,0 +1,62 @@
+body {
+    background-image: url('/Users/marianaveiga/Desktop/Mestrado /TDW(tecn.Desenvolvimento_web)/mini_Projeto /Projeto/imagens/ba.jpeg'); 
+    background-size: cover; /* Faz com que a imagem cubra todo o fundo */
+    background-position: center; /* Centraliza a imagem no fundo */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    background-attachment: fixed; /* Mantém a imagem fixa enquanto se faz scroll */
+}
+
+.book {
+    margin-bottom: 20px;
+}
+.card {
+    height: 100%; /* Faz com que os cards ocupem a altura completa */
+}
+.card-img-top {
+    height: 200px; /* Ajustar a altura da imagem para que os cards não fiquem tão altos */
+    object-fit: cover; /* Mantém a proporção da imagem */
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-body .card-text {
+    flex-grow: 1; /* Faz com que a descrição ocupe o espaço restante */
+}
+/* Ajustar o tamanho máximo dos cards */
+.card {
+    max-width: 300px; /* Limitar a largura máxima dos cards */
+    margin: 0 auto; /* Centralizar os cards */
+}
+
+/* Estilo simples para a navbar */
+.navbar-custom {
+    background-color: #F4F4F4; /* Mesma cor do fundo do body */
+    border-bottom: 1px solid #313030; /* Linha sutil para separação */
+}
+.navbar-brand {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333; /* Cor mais escura para contraste */
+}
+.navbar-nav .nav-link {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: #333333; /* Mesma cor das letras para um visual limpo */
+}
+.navbar-nav .nav-link:hover {
+    color: #000; /* Mudar ligeiramente a cor ao passar o rato */
+}
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    background-color: #333333; /* Ícone de toggle mais escuro para contraste */
+    border-radius: 50%;
+}
+.navbar-brand:hover {
+    color: #B7CFDC; /* Cor quando passas o rato (por exemplo, laranja pastel) */
+    text-decoration: none; /* Remove sublinhado, se houver */
+}

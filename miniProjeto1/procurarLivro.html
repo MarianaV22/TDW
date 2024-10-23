@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/livros.css">
+ 
+</head>
+<body>
+
+<!-- .................................. Navbar................................ -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+  
+  <a class="navbar-brand" href="inicio.html" style="text-decoration: none;">
+    <img src="imagens/bibo.png" alt="Ícone" style="height: 30px; width: 80px; margin-right: 8px;"> 
+    Minha Biblioteca
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="inicio.html">Página Inicial</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="procurarLivro.html">Procurar Livros</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="procurarBiblio.html">Procurar Livrarias</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+  <!-- ............................................................... -->
+
+  <!-- .................................. Conteudo da Pagina................................ -->    
+    <div class="container">
+      <br>
+        <h1 style="color:#73a1b9"class="text-left">Procurar Livros</h1>
+        <p>Escreve o nome do livro que procuras ou do teu autor preferido </p>
+        <br>
+        <div class="form-group">
+            <input type="text" id="bookInput" class="form-control" placeholder="Escreve o nome do livro ou do autor">
+        </div>
+        <button class="btn btn-dark" onclick="searchBooks()">Procurar</button>
+        
+
+        <div id="bookResults" class="row mt-4"></div> <!-- Cards serão organizados em 3 colunas por linha -->
+    </div>
+    <!-- ............................................................... -->
+
+    <script>
+
+       function searchBooks() {
+        const query = document.getElementById('bookInput').value;
+        const googleBooksApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
+
+          fetch(googleBooksApiUrl)
+              .then(response => response.json())
+              .then(data => {
+                  const books = data.items;
+                  let output = '';
+
+                  books.forEach(book => {
+                      const title = book.volumeInfo.title;
+                      const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown Author';
+                      const description = book.volumeInfo.description ? book.volumeInfo.description : 'Sem descrição disponível.';
+                      
+                      // Verifica se há imagem disponível, caso contrário, usa uma imagem por defeito
+                      const coverUrl = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'imagens/book.jpg'; 
+
+                      const infoLink = book.volumeInfo.infoLink ? book.volumeInfo.infoLink : '#';
+
+                      // Estrutura de cada card
+                      output += `
+                          <div class="col-lg-4 col-md-6 col-sm-12 book"> <!-- Responsividade ajustada -->
+                              <div class="card">
+                                  <img src="${coverUrl}" class="card-img-top img-fluid" alt="Capa do livro"> <!-- img-fluid garante a responsividade -->
+                                  <div class="card-body">
+                                      <h5 class="card-title">${title}</h5>
+                                      <p class="card-text"><strong>Autor:</strong> ${authors}</p>
+                                      <p class="card-text">${description.substring(0, 100)}...</p>
+                                      <a href="${infoLink}" class="btn btn-dark" target="_blank">Mais informações</a>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+                  });
+
+                  document.getElementById('bookResults').innerHTML = output;
+              })
+              .catch(error => {
+                  console.log(error);
+                  document.getElementById('bookResults').innerHTML = '<p>Error! Tente novamente por favor</p>';
+              });
+      }
+
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

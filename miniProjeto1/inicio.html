@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <style>
+        .star {
+            color: #FFD700; /* Cor das estrelas (amarelo) */
+        }
+
+        .card-img-top {
+            height: 200px; /* Altura máxima para as imagens dos livros */
+            object-fit: contain; /* Assegura que a imagem se ajusta dentro do card, mantendo a proporção */
+        }
+
+        .card a {
+            text-decoration: none;
+            color: inherit; /* Garante que o texto dentro do card mantenha a cor original */
+        }
+
+        .card a:hover {
+            text-decoration: none; /* Remove o sublinhado ao passar o mouse por cima do link */
+        }
+    </style>
+</head>
+
+<body>
+<!--..................... Navbar ........................-->
+<nav class="navbar navbar-expand-lg navbar-custom">
+  
+  <a class="navbar-brand" href="inicio.html" style="text-decoration: none;">
+    <img src="imagens/bibo.png" alt="Ícone" style="height: 30px; width: 80px; margin-right: 8px;"> 
+    Minha Biblioteca
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="inicio.html">Página Inicial</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="procurarLivro.html">Procurar Livros</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="procurarBiblio.html">Procurar Livrarias</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!--...........................................-->
+
+
+<!----------------------- Conteúdo da Página Inicial ---------------->
+<div class="container mt-5">
+    <h1 style="color:#a5b769">Bem-vindo à Minha Biblioteca</h1>
+    <p>Explora a minha coleção de LIVROS ...</p>
+</div>
+
+<!-- Livros em Destaque -->
+<div class="container mt-5">
+  <h2>Livros em Destaque</h2>
+  <div class="row" id="topBooks"></div>
+</div>
+
+<!-- Livros Mais Classificados -->
+<div class="container mt-5">
+  <h2>Livros Mais Classificados</h2>
+  <div class="row" id="topRatedBooks"></div>
+</div>
+<br>
+<br>
+<!------------------------------------->
+
+
+<!-- Scripts do Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+   // Função para carregar livros em destaque
+   function loadTopBooks() {
+        const googleBooksApiUrl = `https://www.googleapis.com/books/v1/volumes?q=best-seller`;
+
+        fetch(googleBooksApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Seleciona 3 livros de forma aleatória
+                const books = data.items.sort(() => 0.5 - Math.random()).slice(0, 3);
+                let output = '';
+
+                books.forEach(book => {
+                    const title = book.volumeInfo.title;
+                    const coverUrl = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'imagens/book.jpg';
+                    const infoLink = book.volumeInfo.infoLink ? book.volumeInfo.infoLink : '#'; // Link para mais informações
+
+                    output += `
+                        <div class="col-md-4">
+                            <a style="text-decoration: none;" href="${infoLink}" target="_blank"> <!-- Envolve o card num link -->
+                                <div class="card">
+                                    <img src="${coverUrl}" class="card-img-top img-fluid" alt="Capa do livro">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${title}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('topBooks').innerHTML = output;
+            })
+            .catch(error => {
+                console.log(error);
+                document.getElementById('topBooks').innerHTML = '<p>Erro! Tente novamente mais tarde.</p>';
+            });
+    }
+
+   // Função para carregar livros mais classificados (com estrelas)
+   function loadTopRatedBooks() {
+        const googleBooksApiUrl = `https://www.googleapis.com/books/v1/volumes?q=fiction`;
+
+        fetch(googleBooksApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Seleciona 3 livros de forma aleatória
+                const books = data.items.sort(() => 0.5 - Math.random()).slice(0, 3);
+                let output = '';
+
+                books.forEach(book => {
+                    const title = book.volumeInfo.title;
+                    const coverUrl = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'imagens/book.jpg';
+                    const infoLink = book.volumeInfo.infoLink ? book.volumeInfo.infoLink : '#'; // Link para mais informações
+                    const rating = Math.floor(Math.random() * 5) + 1; // Gera uma classificação aleatória de 1 a 5 estrelas
+
+                    // Função para gerar estrelas de classificação
+                    const stars = getStars(rating);
+
+                    output += `
+                        <div class="col-md-4">
+                            <a style="text-decoration: none;" href="${infoLink}" target="_blank"> <!-- Envolve o card num link -->
+                                <div class="card">
+                                    <img src="${coverUrl}" class="card-img-top img-fluid" alt="Capa do livro">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">${title}</h5>
+                                        <div class="stars">${stars}</div> <!-- Mostra as estrelas dentro do card -->
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('topRatedBooks').innerHTML = output;
+            })
+            .catch(error => {
+                console.log(error);
+                document.getElementById('topRatedBooks').innerHTML = '<p>Erro! Tente novamente mais tarde.</p>';
+            });
+    }
+
+    // Função para gerar estrelas de classificação
+    function getStars(rating) {
+        let stars = '';
+        for (let i = 0; i < rating; i++) {
+            stars += '<span class="star">&#9733;</span>'; // Estrela cheia (amarela)
+        }
+        for (let i = rating; i < 5; i++) {
+            stars += '<span class="star">&#9734;</span>'; // Estrela vazia
+        }
+        return stars;
+    }
+
+    // Chamar as funções quando a página for carregada
+    document.addEventListener('DOMContentLoaded', function() {
+        loadTopBooks(); // Livros em Destaque
+        loadTopRatedBooks(); // Livros Mais Classificados
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+body {
+    background-image: url('/Users/marianaveiga/Desktop/Mestrado /TDW(tecn.Desenvolvimento_web)/mini_Projeto /Projeto/imagens/ba.jpeg'); /* Define a imagem de fundo */
+    background-size: cover;  
+    background-position: center;  
+    background-repeat: no-repeat;  
+    background-attachment: fixed;  
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+ 
+.card-amarelo {
+    background-color: #F8DF70;  
+}
+.card-laranja {
+    background-color: #F5A473;  
+}
+.card-azul {
+    background-color: #B7CFDC;  
+}
+.card-verde {
+    background-color: #C4D58E;  
+}
+.card-rosa {
+    background-color: #EF82A5;  
+}
+.card-roxo {
+    background-color: #C1B0D7;  
+}
+
+.card {
+    height: 100%;  
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+    overflow: hidden;
+}
+
+.card-body {
+    flex-grow: 1; /* para o conteúdo  ocupar o espaço vertical */
+}
+
+.btn {
+    margin-top: auto;  
+}
+.navbar-custom {
+    background-color: #F4F4F4;  
+    border-bottom: 1px solid #313030;  
+}
+.navbar-brand {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;  
+}
+.navbar-nav .nav-link {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: #333333; 
+}
+.navbar-nav .nav-link:hover {
+    color: #000;  
+}
+.navbar-toggler {
+    border: none;
+}
+.navbar-toggler-icon {
+    background-color: #333333;  
+    border-radius: 50%;
+}
+
+
+
+
+.navbar-brand:hover {
+    color: #F5A473;  
+    text-decoration: none;  
+}
