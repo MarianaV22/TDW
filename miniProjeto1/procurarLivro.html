@@ -6,36 +6,25 @@
     <title>Livros</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/livros.css">
+
+    <script> 
+      function loadNavbar() { 
+          fetch('navbar.html') 
+              .then(response => response.text()) 
+              .then(data => { 
+                  document.getElementById('navbar').innerHTML = data; 
+              }); 
+      } 
+      window.onload = loadNavbar; 
+    </script>
  
 </head>
 <body>
 
-<!-- .................................. Navbar................................ -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-  
-  <a class="navbar-brand" href="inicio.html" style="text-decoration: none;">
-    <img src="imagens/bibo.png" alt="Ícone" style="height: 30px; width: 80px; margin-right: 8px;"> 
-    Minha Biblioteca
-  </a>
+  <div id="navbar"></div>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="inicio.html">Página Inicial</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="procurarLivro.html">Procurar Livros</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="procurarBiblio.html">Procurar Livrarias</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-  <!-- ............................................................... -->
+<!-- .................................. Navbar................................ -->
+<!--............................................................... -->
 
   <!-- .................................. Conteudo da Pagina................................ -->    
     <div class="container">
