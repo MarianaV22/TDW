@@ -6,7 +6,6 @@
     <title>Procurar Livrarias ou Bibliotecas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="css/biblio.css">
   
@@ -22,7 +21,7 @@
     </script>
 
 </head>
-<body>
+<body  >
 
   <div id="navbar"></div>
 <!--........................... Navbar ........................... -->
@@ -31,27 +30,28 @@
 
 
  <!--........................... Conteudo da Pagina  ........................... -->
-<div class="container mt-5">
-    <h1 style="color:#d18556">Procurar Livrarias ou Bibliotecas</h1>
-    <p>Insire a localização (cidade ou coordenadas) para procurar livrarias ou bibliotecas próximas.</p>
+ <div class="container mt-5">
+    <h1 style="color:#6bad59">Procurar Livrarias ou Bibliotecas</h1>
+    <p style="color:#336026"> Insere a localização (cidade ou coordenadas) para procurar livrarias ou bibliotecas próximas.</p>
 
-    <div class="form-group">
-        <label for="location">Localização (cidade ou coordenadas):</label>
+    <div class="form-group d-flex" style="gap: 10px;">
         <input type="text" id="location" class="form-control" placeholder="Exemplo: Vila Real ou 41.3006,-7.7441">
+        <button class="btn" style="background-color: #6bad59; color: white;" onclick="searchPlaces()">Procurar</button>
     </div>
-    <button class="btn btn-dark" onclick="searchPlaces()">Procurar</button>
 
-    <h3 class="mt-5">Resultados:</h3>
+    <h3 class="mt-5" style="color:#508542;background-color: #6bad5924;">Resultados  ...  </h3>
     <div id="results" class="row mt-4"></div>  
 </div>
+
+
+
 
 <!--------- Modal para o mapa ---------->
 <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="mapModalLabel">Localização no Mapa</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="mapModalLabel" style="color: #6bad59;">Localização no Mapa</h5>
       </div>
       <div class="modal-body">
         <div id="map"></div>
@@ -63,11 +63,15 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn bg-danger" style="color:#fff" data-dismiss="modal">Fechar</button>
       </div>
     </div>
   </div>
 </div>
+
+<footer class="text-center py-4">
+    &copy; 2024 Bibo. A minha coleção de livros
+</footer>
 
 <!----------------->
 
@@ -82,8 +86,7 @@
 <script>
   let map; // Variável global para o mapa
   let marker; // Variável global para o marcador
-  const cardColors = ['card-amarelo', 'card-laranja', 'card-azul', 'card-verde', 'card-rosa', 'card-roxo']; // Array das cores
-  let colorIndex = 0; // Índice para alternar as cores
+  
 
   // Iniciar o mapa quando o modal é mostrado
   $('#mapModal').on('shown.bs.modal', function () {
@@ -112,7 +115,10 @@
   }
 
   // Para procurar lugares
-  function searchNearbyPlaces(lat, lon) {
+const cardColors = ['card-verde', 'card-verde1', 'card-verde2', 'card-verde3']; // Array das cores
+let colorIndex = 0; // Índice para alternar as cores
+
+function searchNearbyPlaces(lat, lon) {
     const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];node[amenity~"library|bookstore"](around:5000,${lat},${lon});out;`;
 
     fetch(overpassUrl)
@@ -123,20 +129,20 @@
 
         if (data.elements && data.elements.length > 0) {
             data.elements.forEach(place => {
-                console.log(place.tags);  
                 const cardColorClass = cardColors[colorIndex];
-                colorIndex = (colorIndex + 1) % cardColors.length;
+                colorIndex = (colorIndex + 1) % cardColors.length; // Garantir que o índice volte ao início
 
                 const card = `
-                    <div class="col-md-4 mb-4">
-                        <div class="card ${cardColorClass}">
-                            <div class="card-body">
-                                <h5 class="card-title">${place.tags.name || 'Sem nome'}</h5>
-                                <p class="card-text"><strong>Tipo:</strong> ${place.tags.amenity}</p>
-                                <button class="btn btn-dark" onclick="showOnMap(${place.lat}, ${place.lon}, '${place.tags['addr:street'] || ''}', '${place.tags['addr:postcode'] || ''}', '${place.tags['addr:city'] || ''}', '${place.tags['addr:country'] || ''}')">Ver no Mapa</button>
-                            </div>
+                   <div class="col-md-4 mb-4">
+                    <div class="card ${cardColorClass}" style="border-radius: 15px;">
+                        <div class="card-body" style="background-color:rgba(107, 173, 89, 0.2); border: 2px solid #6bad59; border-radius: 15px;">
+                            <h5 class="card-title">${place.tags.name || 'Nome não atribuído'}</h5>
+                            <p class="card-text"><strong>Tipo:</strong> ${place.tags.amenity}</p>
+                            <button class="btn" style="background-color:#6bad59; color:#fff" onclick="showOnMap(${place.lat}, ${place.lon}, '${place.tags['addr:street'] || ''}', '${place.tags['addr:postcode'] || ''}', '${place.tags['addr:city'] || ''}', '${place.tags['addr:country'] || ''}')">Ver no Mapa</button>
                         </div>
                     </div>
+                </div>
+
                 `;
                 results.innerHTML += card;
             });
@@ -146,6 +152,7 @@
     })
     .catch(error => console.error('Erro ao procurar lugares:', error));
 }
+
 
 function showOnMap(lat, lon, street, postalCode, city, country) {
     $('#mapModal').modal('show');
@@ -171,13 +178,7 @@ function showOnMap(lat, lon, street, postalCode, city, country) {
 }
 
 
-/*fetch('navbar.html')
-    .then(response => response.text())
-    .then(data => {
-        console.log(data); // Verifica o conteúdo do ficheiro navbar.html no console
-        document.getElementById('navbar-placeholder').innerHTML = data;
-    })
-    .catch(error => console.error('Erro ao carregar a navbar:', error)); */
+
 
 </script>
 

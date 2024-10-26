@@ -1,31 +1,129 @@
- 
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar Personalizada</title>
+    <!-- Inclua o CSS do Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos personalizados */
+        .navbar-custom {
+            background-color: #F4F4F4;
+            border: none; /* Remove a linha separadora */
+            border-radius: 15px; /* Cantos arredondados */
+            padding: 10px 20px;
+            margin: 20px;
+        }
 
+        .navbar-nav .nav-item {
+            margin: 0 5px;
+        }
 
+        .navbar-nav .nav-link {
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            color: #333333;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
 
-      <nav class="navbar navbar-expand-lg navbar-custom">
-  
-        <a class="navbar-brand" href="inicio.html" style="text-decoration: none;">
-          <img src="imagens/bibo.png" alt="Ícone" style="height: 30px; width: 80px; margin-right: 8px;"> 
-          Minha Biblioteca
-        </a>
-      
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Página Inicial</a>
+        /* Cores personalizadas para cada item */
+        .navbar-nav .nav-item.home > .nav-link:hover,
+        .navbar-nav .nav-item.home > .nav-link.active {
+            background-color: #F5A473; /* Cor para Página Inicial */
+            color: #FFFFFF ;
+        }
+
+        .navbar-nav .nav-item.livros > .nav-link:hover,
+        .navbar-nav .nav-item.livros > .nav-link.active {
+            background-color: #8EC5FC ; /* Cor para Procurar Livros */
+            color: #FFFFFF ;
+        }
+
+        .navbar-nav .nav-item.livrarias > .nav-link:hover,
+        .navbar-nav .nav-item.livrarias > .nav-link.active {
+            background-color: #8ac679 ; /* Cor para Procurar Livrarias */
+            color: #FFFFFF ;
+        }
+
+        /* Remove a cor de fundo padrão ao hover */
+        .navbar-nav .nav-link:hover {
+            color: #FFFFFF;
+        }
+
+        /* Ajustes para o botão toggler */
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(51, 51, 51, 1)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+        }
+
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <a class="navbar-brand" href="index.html" style="text-decoration: none;">
+        <img src="imagens/bibo.png" alt="Ícone" style="height: 30px; width: 80px; margin-right: 8px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item home">
+                <a class="nav-link" href="index.html">Página Inicial</a>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="procurarLivro.html">Procurar Livros</a>
+            <li class="nav-item livrarias">
+                <a class="nav-link" href="procurarBiblio.html">Procurar Livrarias</a>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="procurarBiblio.html">Procurar Livrarias</a>
-            </li>
-          </ul>
-        </div>
-      </nav>  
-    
+        </ul>
+    </div>
+</nav>
 
- 
+<!-- Inclua o jQuery e o Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Script para adicionar a classe 'active' ao item correspondente -->
+<script>
+    $(document).ready(function(){
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+
+        // Tratar a página inicial com caminho vazio
+        if (page === '') {
+            page = 'index.html';
+        }
+
+        // Remover qualquer parâmetro da URL
+        page = page.split("?")[0];
+
+        // Selecionar todos os links de navegação
+        $('ul.navbar-nav li a').each(function(){
+            var href = $(this).attr('href');
+
+            // Remover qualquer parâmetro do href
+            href = href.split("?")[0];
+
+            if (href === page) {
+                $(this).addClass('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
