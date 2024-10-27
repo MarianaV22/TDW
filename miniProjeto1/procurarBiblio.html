@@ -108,7 +108,7 @@
       // Passo 2: Usar as coordenadas para procurar livrarias ou bibliotecas (API Overpass)
               searchNearbyPlaces(lat, lon);
           } else {
-              alert("Localização não encontrada. Tente novamente.");
+              alert("Localização não encontrada. Tenta novamente.");
           }
       })
       .catch(error => console.error('Erro ao obter coordenadas:', error));
@@ -163,7 +163,7 @@ function showOnMap(lat, lon, street, postalCode, city, country) {
     document.getElementById('country').textContent = country ? country : 'Não disponível';
 
     if (!map) {
-        map = L.map('map').setView([lat, lon], 15);
+        map = L.map('map').setView([lat, lon], 15);//zoom 15
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);

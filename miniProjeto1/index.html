@@ -182,7 +182,7 @@
         </div>
         <div id="featuredBooksCarousel" class="carousel slide fade-carousel" data-bs-ride="carousel">
             <div class="carousel-inner" id="featuredBooks">
-                <!-- Livros em destaque serão carregados aqui via JavaScript -->
+                <!-- Livros sao carregados aqui  -->
             </div>
             <!-- Controles do carrossel -->
             <button class="carousel-control-prev" type="button" data-bs-target="#featuredBooksCarousel" data-bs-slide="prev">
@@ -195,7 +195,7 @@
             </button>
             <!-- Indicadores do carrossel -->
             <div class="carousel-indicators" id="featuredBooksIndicators">
-                <!-- Indicadores serão carregados aqui via JavaScript -->
+                <!-- Indicadores sao carregados aqui  -->
             </div>
         </div>
     </div>
@@ -243,29 +243,29 @@
             fetch(googleBooksApiUrl)
                 .then(response => response.json())
                 .then(data => {
-                const books = data.items;
+                const books = data.items;//armazena toda a inf dos livros na contasnte
 
-                // Atribuir avaliações aleatórias aos livros em destaque
-                featuredBooksList = books.map(book => {
+                
+                featuredBooksList = books.map(book => { //carrega os livros 
                     return {
                     ...book,
-                    rating: Math.floor(Math.random() * 5) + 1 // Avaliação entre 1 e 5
                     };
                 });
 
-                // Renderizar os livros em destaque inicialmente em ordem decrescente
-                renderFeaturedBooks('desc');
+                // Renderizar os livros em destaque 
+                renderFeaturedBooks();
 
                 // Chamar addCardEventListeners após renderizar os cards
                 addCardEventListeners();
                 })
+                //quando a API falha
                 .catch(error => {
                 console.log(error);
                 document.getElementById('featuredBooks').innerHTML = '<p>Erro ao carregar livros em destaque. Tente novamente mais tarde.</p>';
                 });
         }
 
-        function addCardEventListeners() {
+        function addCardEventListeners() { //adicionar eventes de click ao cards
             document.querySelectorAll('.book-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const title = this.getAttribute('data-title');
@@ -287,15 +287,16 @@
 
         // Função para renderizar os livros em destaque com base na ordenação
         function renderFeaturedBooks(order) {
+
             // Ordenar os livros com base na avaliação
             let sortedBooks = [...featuredBooksList];
-            if (order === 'asc') {
+            if (order === 'asc') { //crescente
                 sortedBooks.sort((a, b) => a.rating - b.rating);
             } else {
                 sortedBooks.sort((a, b) => b.rating - a.rating);
             }
 
-            const itemsPerSlide = 4; // Quantos livros por slide
+            const itemsPerSlide = 4; // nLivros por
             const totalSlides = Math.ceil(sortedBooks.length / itemsPerSlide);
             let carouselInner = '';
             let indicators = '';
@@ -366,7 +367,7 @@
                         };
                     });
 
-                    // Renderizar os livros mais classificados inicialmente em ordem decrescente
+                    // Renderizar os livros mais classificados inicialmente por ordem decrescente
                     renderTopRatedBooks('desc');
 
                     // Adicionar event listeners aos novos cartões de livros
@@ -383,7 +384,7 @@
         function renderTopRatedBooks(order) {
             // Ordenar os livros com base na avaliação
             let sortedBooks = [...topRatedBooksList];
-            if (order === 'asc') {
+            if (order === 'asc') { //crescente
                 sortedBooks.sort((a, b) => a.rating - b.rating);
             } else {
                 sortedBooks.sort((a, b) => b.rating - a.rating);
@@ -435,105 +436,106 @@
         // Função para gerar estrelas de classificação
         function getStars(rating) {
             let stars = '';
-            for (let i = 0; i < rating; i++) {
+            for (let i = 0; i < rating; i++) { //percorrer as preenchidas
                 stars += '<i class="fas fa-star star"></i>';
             }
-            for (let i = rating; i < 5; i++) {
+            for (let i = rating; i < 5; i++) {//percorrer as vazias
                 stars += '<i class="far fa-star star"></i>';
             }
             return stars;
         }
 
-        // Função para realizar a procura com filtro de categoria
+        // Função para realizar a procura de livro com filtro de categoria
         function performSearch() {
-    const query = document.getElementById('searchQuery').value.trim();
-    const category = document.getElementById('categorySelect').value;
-    let finalQuery = query;
+        const query = document.getElementById('searchQuery').value.trim();
 
-    if (category !== "") {
-        finalQuery += `+subject:${category}`;
-    }
+        const category = document.getElementById('categorySelect').value;
+        let finalQuery = query;
 
-    if (finalQuery === "") {
-        alert('Por favor, insira um termo de busca ou selecione uma categoria.');
-        return;
-    }
+        if (category !== "") {
+            finalQuery += `+subject:${category}`;//subject é como é referenciada na API
+        }
 
-    // Mostrar o loader
-    document.getElementById('loader').style.display = 'block';
+        if (finalQuery === "") {
+            alert('Por favor, insire um livro  ou seleciona uma categoria.');
+            return;
+        }
 
-    // Limpar resultados anteriores
-    document.getElementById('searchResults').innerHTML = '';
+            // Mostrar o loader
+            document.getElementById('loader').style.display = 'block';
 
-    // Esconder as seções de destaque e classificados
-    document.getElementById('featuredBooksSection').style.display = 'none';
-    document.getElementById('topRatedBooksSection').style.display = 'none';
+            // Limpar resultados anteriores
+            document.getElementById('searchResults').innerHTML = '';
 
-    // Mostrar a seção de resultados da pesquisa
-    document.getElementById('searchResultsSection').style.display = 'block';
+            // Esconder as seções de destaque e classificados
+            document.getElementById('featuredBooksSection').style.display = 'none';
+            document.getElementById('topRatedBooksSection').style.display = 'none';
 
-    // Fazer a busca na API do Google Books
-    const googleBooksApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(finalQuery)}&maxResults=20`;
+            // Mostrar a seção de resultados da pesquisa
+            document.getElementById('searchResultsSection').style.display = 'block';
 
-    fetch(googleBooksApiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const books = data.items;
-            if (!books || books.length === 0) {
-                document.getElementById('loader').style.display = 'none';
-                alert('Nenhum livro encontrado para a sua busca.');
-                return;
-            }
+            // Fazer a procura na API do Google Books
+            const googleBooksApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(finalQuery)}&maxResults=20`;
 
-            // Exibir os resultados na seção "Resultados da Pesquisa"
-            let output = '';
+            fetch(googleBooksApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const books = data.items;
+                    if (!books || books.length === 0) {
+                                document.getElementById('loader').style.display = 'none';
+                                alert('Nenhum livro encontrado para a sua pesquisa.');
+                                return;
+                            }
 
-            books.forEach(book => {
-                const title = book.volumeInfo.title || 'Título não disponível';
-                const coverUrl = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail.replace('http:', 'https:') : 'imagens/book.jpg';
-                const infoLink = book.volumeInfo.infoLink ? book.volumeInfo.infoLink : '#';
-                const author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Autor desconhecido';
-                const description = book.volumeInfo.description || 'Descrição não disponível';
+                            // Exibir os resultados na seção "Resultados da Pesquisa"
+                            let output = '';
 
-                const rating = Math.floor(Math.random() * 5) + 1;
+                            books.forEach(book => {
+                                const title = book.volumeInfo.title || 'Título não disponível';
+                                const coverUrl = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail.replace('http:', 'https:') : 'imagens/book.jpg';
+                                const infoLink = book.volumeInfo.infoLink ? book.volumeInfo.infoLink : '#';
+                                const author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Autor desconhecido';
+                                const description = book.volumeInfo.description || 'Descrição não disponível';
 
-                // Função para gerar estrelas de classificação
-                const stars = getStars(rating);
+                                const rating = Math.floor(Math.random() * 5) + 1;
 
-                output += `
-                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="card h-100 book-card" style="cursor: pointer;"
-                            data-bs-toggle="modal"
-                            data-bs-target="#bookModal"
-                            data-title="${title}"
-                            data-author="${author}"
-                            data-description="${description}"
-                            data-image="${coverUrl}"
-                            data-infoLink="${infoLink}">
-                            <img src="${coverUrl}" class="card-img-top" alt="Capa do livro">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">${title}</h5>
-                                <div class="stars">${stars}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
+                                // Função para gerar estrelas de classificação
+                                const stars = getStars(rating);
 
-            document.getElementById('searchResults').innerHTML = output;
+                                output += `
+                                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                        <div class="card h-100 book-card" style="cursor: pointer;"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#bookModal"
+                                            data-title="${title}"
+                                            data-author="${author}"
+                                            data-description="${description}"
+                                            data-image="${coverUrl}"
+                                            data-infoLink="${infoLink}">
+                                            <img src="${coverUrl}" class="card-img-top" alt="Capa do livro">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">${title}</h5>
+                                                <div class="stars">${stars}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
 
-            // Adicionar event listeners aos novos cartões de livros
-            addCardEventListeners();
+                            document.getElementById('searchResults').innerHTML = output;
 
-            // Esconder o loader
-            document.getElementById('loader').style.display = 'none';
-        })
-        .catch(error => {
-            console.log(error);
-            document.getElementById('loader').style.display = 'none';
-            alert('Erro ao realizar a busca. Tente novamente mais tarde.');
-        });
-}
+                            // Adicionar event listeners aos novos cartões de livros
+                            addCardEventListeners();
+
+                            // Esconder o loader
+                            document.getElementById('loader').style.display = 'none';
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            document.getElementById('loader').style.display = 'none';
+                            alert('Erro ao realizar a busca. Tente novamente mais tarde.');
+                        });
+                }
 
 
         // Chamar as funções quando a página for carregada
